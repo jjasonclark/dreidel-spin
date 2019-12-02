@@ -1,0 +1,32 @@
+service: dreidel-spin
+
+provider:
+  name: azure
+  location: West US
+  runtime: nodejs10.x
+
+package:
+  exclude:
+    - '*'
+    - '!package.json'
+    - '!yarn.lock'
+    - '!src/index.js'
+    - '!LICENSE'
+    - '!CODE_OF_CONDUCT.md'
+    - '!README.md'
+    - '!host.json'
+
+plugins:
+  - serverless-azure-functions
+
+functions:
+  dreidelSpin:
+    handler: src/index.handler
+    events:
+      - http: true
+        x-azure-settings:
+          authLevel: anonymous
+          name: req
+          methods:
+            - get
+        route: /
